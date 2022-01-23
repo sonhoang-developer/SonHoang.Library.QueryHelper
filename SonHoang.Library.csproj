@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>sonhoang.developer</Authors>
-    <PackageIcon>Icons\library-icon.png</PackageIcon>
+    <PackageIcon>library-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <NeutralLanguage>en</NeutralLanguage>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Icons\library-icon.png">
+    <None Include="library-icon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
