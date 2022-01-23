@@ -24,7 +24,7 @@ jobs:
     - name: Publish to NuGet
       uses: brandedoutcast/publish-nuget@v2
       with:
-        PROJECT_FILE_PATH: SonHoang.Library.QueryHelper/SonHoang.Library.csproj
+        PROJECT_FILE_PATH: SonHoang.Library.csproj
         VERSION_REGEX: '^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$'
         TAG_FORMAT: '*'
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
