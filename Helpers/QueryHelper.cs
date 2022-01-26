@@ -16,6 +16,10 @@ namespace SonHoang.Library.Helpers
     {
         public static IQueryable SelectQueryData<T>(this IQueryable<T> queryData, List<string> selectFields)
         {
+            if(selectFields is null || selectFields.Count == 0)
+            {
+                selectFields = typeof(T).GetAllPropertiesName();
+            }
             IQueryable selectQuery = queryData.Select(@"new {" + selectFields.ToStringJoin(",") + "}");
             return selectQuery;
         }
