@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using SonHoang.Library.Requests;
 using SonHoang.Library.Responses;
 using System;
 using System.Collections.Generic;
@@ -125,5 +126,82 @@ namespace SonHoang.Library.Helpers
             dynamic result = jobjectResult.ToObject<dynamic>();
             return result;
         }
+        public static dynamic SelectFields<T>(this object data, GetDetailsRequest getDetailsRequest)
+        {
+            List<string> selectFields;
+            if (getDetailsRequest is null || getDetailsRequest.SelectFields is null || getDetailsRequest.SelectFields.Count == 0)
+            {
+                selectFields = typeof(T).GetAllPropertiesName();
+            }
+            else
+            {
+                selectFields = getDetailsRequest.SelectFields;
+            }
+            JObject jobjectData = JObject.FromObject(data, new JsonSerializer()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            JObject jobjectResult = new();
+            selectFields.ForEach(field =>
+            {
+                field = field.Trim().LowerCaseFirstLetter();
+                if (field.Contains(" as "))
+                {
+                    string fieldBeforeAs = field.Split(" as ")[0];
+                    string fieldAfterAs = field.Split(" as ")[1].Trim().LowerCaseFirstLetter();
+                    JToken value = null;
+                    if (fieldBeforeAs.Contains('.'))
+                    {
+                        List<string> props = fieldBeforeAs.Split(".").ToList();
+                        props.ForEach(prop =>
+                        {
+                            prop = prop.Trim().LowerCaseFirstLetter();
+                            if (value is null)
+                            {
+                                value = jobjectData[prop];
+                            }
+                            else
+                            {
+                                value = value[prop];
+                            }
+                        });
+                    }
+                    jobjectResult[fieldAfterAs] = value;
+                }
+                else
+                {
+                    JToken value = null;
+                    if (field.Contains('.'))
+                    {
+                        List<string> props = field.Split(".").ToList();
+                        string propLast = null;
+                        props.ForEach(prop =>
+                        {
+                            prop = prop.Trim().LowerCaseFirstLetter();
+                            if (value is null)
+                            {
+                                value = jobjectData[prop];
+                            }
+                            else
+                            {
+                                value = value[prop];
+                            }
+                            propLast = prop;
+                        });
+                        jobjectResult[propLast] = value;
+                    }
+                    else
+                    {
+                        jobjectResult[field] = jobjectData[field];
+                    }
+                }
+            });
+            dynamic result = jobjectResult.ToObject<dynamic>();
+            return result;
+        }
+
+
     }
 }
