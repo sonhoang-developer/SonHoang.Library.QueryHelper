@@ -92,6 +92,7 @@ namespace SonHoang.Library.Helpers
                 await requestFile.CopyToAsync(stream);
                 stream.Close();
             }
+            fileFullName = Path.Combine(folderPath, fileFullName);
             return fileFullName;
         }
 
