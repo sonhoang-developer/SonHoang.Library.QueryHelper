@@ -97,6 +97,10 @@ namespace SonHoang.Library.Helpers
                             }
                         });
                     }
+                    else
+                    {
+                        value = jobjectData[fieldBeforeAs];
+                    }
                     jobjectResult[fieldAfterAs] = value;
                 }
                 else
@@ -171,6 +175,10 @@ namespace SonHoang.Library.Helpers
                                 value = value[prop];
                             }
                         });
+                    }
+                    else
+                    {
+                        value = jobjectData[fieldBeforeAs];
                     }
                     jobjectResult[fieldAfterAs] = value;
                 }
