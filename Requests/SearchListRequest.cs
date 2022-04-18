@@ -16,7 +16,7 @@ namespace SonHoang.Library.Helpers
         public int Page { get; set; } = 1; // Page number
         public List<SortFieldOrderBy>? SortFields { get; set; } // Field to sort
         //public List<SearchValue>? SearchValue { get; set; } // Value to search list
-        public List<string>? SelectFields { get; set; } // Selected Fields
+        public List<string>? SelectFields { get; set; } = typeof(T).GetAllPropertiesName(); // Selected Fields
         
         public string? ToStringSortFields()
         {

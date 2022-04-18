@@ -62,6 +62,19 @@ namespace SonHoang.Library.Helpers
                 }
             };
         }
+        public static async Task<SearchListResponse> GetSearchResponseQueryDataAsync(this IQueryable queryData, int page = 0, int limit = 1)
+        {
+            return new SearchListResponse
+            {
+                Data = page != 0 ? (await queryData.Skip((page - 1) * limit).Take(limit).ToDynamicListAsync()) : (await queryData.ToDynamicListAsync()),
+                Info = new Info
+                {
+                    Page = page != 0 ? page : 1,
+                    Limit = page != 0 ? limit : queryData.Count(),
+                    TotalRecord = queryData.Count(),
+                }
+            };
+        }
         public static dynamic SelectFields(this object data, List<string> selectFields)
         {
             //List<string> selectFields = selectFields.Split(",").ToList();
