@@ -147,7 +147,7 @@ namespace SonHoang.Library.Helpers
             dynamic result = jobjectResult.ToObject<dynamic>();
             return result;
         }
-        public static dynamic SelectFields<T>(this object data, GetDetailsRequest getDetailsRequest)
+        public static dynamic SelectFields<T>(this object data, GetDetailsRequest<T> getDetailsRequest) where T : class
         {
             List<string> selectFields;
             if (getDetailsRequest is null || getDetailsRequest.SelectFields is null || getDetailsRequest.SelectFields.Count == 0)
